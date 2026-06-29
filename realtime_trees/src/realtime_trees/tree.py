@@ -417,7 +417,7 @@ class Tree:
         max_radius: float = 1.0,
         filter_radius: float = 0.05,
         max_consecutive_fails: int = 5,
-        min_tree_height: float = 5,
+        min_tree_height: float = 1.5,
     ) -> bool:
         """reconstructs the set of clusters into a stack of cone frustums represented by
         a stack of circles.
