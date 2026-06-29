@@ -5,8 +5,8 @@ from rclpy.publisher import Publisher
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 import message_filters
 from sensor_msgs.msg import PointCloud2
-from nav_msgs.msg import Odometry, Path
-from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import PoseWithCovarianceStamped, Path
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
 from std_msgs.msg import Header
 from sensor_msgs_py import point_cloud2 as pc2
 import numpy as np
@@ -190,7 +190,7 @@ class PayloadAccumulator(Node):
         qos_odom = QoSProfile(depth=50)
         
         self.pc_mf = message_filters.Subscriber(self, PointCloud2, self.pointcloud_topic, qos_profile=qos_pc)
-        self.odom_mf = message_filters.Subscriber(self, Odometry, self.odom_topic, qos_profile=qos_odom)
+        self.odom_mf = message_filters.Subscriber(self, PoseWithCovarianceStamped, self.odom_topic, qos_profile=qos_odom)
         self.ts = message_filters.ApproximateTimeSynchronizer([self.pc_mf, self.odom_mf], self.sync_queue_size, self.sync_slop)
         self.ts.registerCallback(self.sync_callback)
 
@@ -218,7 +218,7 @@ class PayloadAccumulator(Node):
         if self.posegraph_topic:
             self.posegraph_pub = self.create_publisher(Path, self.posegraph_topic, 1)
 
-    def sync_callback(self, pc_msg: PointCloud2, odom_msg: Odometry):
+    def sync_callback(self, pc_msg: PointCloud2, odom_msg: PoseWithCovarianceStamped):
         self.map_frame_id = odom_msg.header.frame_id if odom_msg.header.frame_id else 'map'
         debug_string = ""
         t0 = time.perf_counter()
@@ -317,7 +317,7 @@ class PayloadAccumulator(Node):
         # self.get_logger().error(f"We are accumulating {len(self.accum_list)} clouds, elapsed={elapsed:.2f} s. This results in an average pc processing rate of {len(self.accum_list)/(elapsed+0.1) if elapsed>0 else 0:.1f} Hz")
         # self.get_logger().error(debug_string)
 
-    def publish_buffer_as_path(self, buffer: list[Odometry], publisher: Publisher):
+    def publish_buffer_as_path(self, buffer: list[PoseWithCovarianceStamped], publisher: Publisher):
         path_msg = Path()
         if buffer:
             path_msg.header.stamp = buffer[-1].header.stamp
