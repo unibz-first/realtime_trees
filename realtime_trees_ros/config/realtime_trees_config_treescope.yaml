@@ -3,9 +3,9 @@
     debug_level: 0
 
     frames:
-      base_frame_id: "body"
-      odom_frame_id: "camera_init"
-      map_frame_id: "camera_init"
+      base_frame_id: "base_link"
+      odom_frame_id: "odom"
+      map_frame_id: "map"
 
     tree_manager:
       distance_threshold: 0.5 # tree trunks closer than this are considered belonging to the same tree
