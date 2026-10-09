@@ -69,7 +69,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 100
-      Reference Frame: camera_init
+      Reference Frame: map
       Value: true
     - Class: rviz_default_plugins/TF
       Enabled: false
@@ -94,7 +94,7 @@ Visualization Manager:
           Length: 2
           Name: Map Frame
           Radius: 0.10000000149011612
-          Reference Frame: camera_init
+          Reference Frame: map
           Value: true
         - Angle Tolerance: 0.009999999776482582
           Class: rviz_default_plugins/Odometry
@@ -133,7 +133,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /Odometry
+            Value: /liorf/mapping/odometry
           Value: true
         - Alpha: 0.800000011920929
           Autocompute Intensity Bounds: true
@@ -164,7 +164,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /cloud_registered_body
+            Value: /liorf/mapping/cloud_registered_raw
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
@@ -424,7 +424,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 33; 33; 33
-    Fixed Frame: camera_init
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
